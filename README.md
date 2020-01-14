@@ -1,7 +1,7 @@
 # birdgame
 janky clone of the warioware minigame "pyoro"/"bird &amp; beans" made in unity/c#
 
-`
+```
 unity birdgame / pyoro clone to-do
 - tongue extension
 - seemingly random spawning of beans (bulk of game code, has two states)
@@ -15,4 +15,4 @@ unity birdgame / pyoro clone to-do
 - main menu system
 - remove unused code and other assets
 - document/comment on code
-`
+```
