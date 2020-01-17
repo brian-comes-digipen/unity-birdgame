@@ -1350,6 +1350,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1756366616, guid: 22a9dde770ae0e64f84fa78f24930eb7, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4884176328191799182, guid: 22a9dde770ae0e64f84fa78f24930eb7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2955,7 +2959,7 @@ PrefabInstance:
     - target: {fileID: 832512485899386814, guid: e0bd35d0f89448e4d886d7841dc4598a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.75
+      value: -4.5
       objectReference: {fileID: 0}
     - target: {fileID: 832512485899386814, guid: e0bd35d0f89448e4d886d7841dc4598a,
         type: 3}
@@ -3149,6 +3153,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 475108887, guid: 08c8082ca22c8844badce878d60b1847, type: 3}
+      propertyPath: tonguePrefab
+      value: 
+      objectReference: {fileID: 8508243087666326633, guid: 370eb3bcee563f64dbd35171923efd29,
+        type: 3}
+    - target: {fileID: 475108887, guid: 08c8082ca22c8844badce878d60b1847, type: 3}
+      propertyPath: isShooting
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6824174289281068091, guid: 08c8082ca22c8844badce878d60b1847,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2253505415334779365, guid: 6fd96884a3bd9ec44997e94c657831c1,
+        type: 3}
     - target: {fileID: 8260756551662322499, guid: 08c8082ca22c8844badce878d60b1847,
         type: 3}
       propertyPath: m_LocalPosition.x
