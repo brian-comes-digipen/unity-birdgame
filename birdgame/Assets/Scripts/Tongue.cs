@@ -26,7 +26,7 @@ public class Tongue : MonoBehaviour
     {
         if (goLeft)
         {
-            if (transform.position.x >= -7.8125 && retracting == false)
+            if (transform.position.x >= -7.3435 && retracting == false)
             {
                 transform.position = transform.position + new Vector3(-speed * Time.deltaTime, speed * Time.deltaTime);
             }
@@ -48,7 +48,7 @@ public class Tongue : MonoBehaviour
         else
         {
             transform.localScale = new Vector2(-1, 1);
-            if (transform.position.x <= 7.8125 && retracting == false)
+            if (transform.position.x <= 7.3435 && retracting == false)
             {
                 transform.position = transform.position + new Vector3(speed * Time.deltaTime, speed * Time.deltaTime);
             }
@@ -67,11 +67,16 @@ public class Tongue : MonoBehaviour
                 }
             }
         }
+
+        if (transform.position.y >= 4.3435)
+        {
+            retracting = true;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name.Contains("Bean"))
+        if (collision.gameObject.name.Contains("Bean") && !retracting)
         {
             Destroy(collision.gameObject);
             retracting = true;

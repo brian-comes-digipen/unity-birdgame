@@ -126,6 +126,9 @@ MonoBehaviour:
   - {fileID: -1467454905389797002, guid: 6fd96884a3bd9ec44997e94c657831c1, type: 3}
   - {fileID: 715762783493857062, guid: 6fd96884a3bd9ec44997e94c657831c1, type: 3}
   - {fileID: -3110561158975256475, guid: 6fd96884a3bd9ec44997e94c657831c1, type: 3}
+  speed: 2
+  isShooting: 0
+  tonguePrefab: {fileID: 0}
 --- !u!95 &7670714590205436214
 Animator:
   serializedVersion: 3

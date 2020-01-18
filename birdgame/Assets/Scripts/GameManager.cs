@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public float timeElapsed;
 
+    public int score;
+
     bool[] activeTiles = new bool[32];
 
     // Start is called before the first frame update

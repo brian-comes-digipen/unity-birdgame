@@ -29,7 +29,8 @@ public class BeanFall : MonoBehaviour
             // Tell animation state machine to use white bean sprite animation
             ani.SetInteger("BeanType", 1);
 
-            // do a coroutine, rapidly cycle RGB colors for magic bean
+            // do a coroutine, rapidly cycle RGB colors for magic block replenishing bean
+
         }
 
     }
@@ -37,32 +38,21 @@ public class BeanFall : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        rb2D.velocity = new Vector2(0, -1);
+        CheckYPosition();
     }
 
     void CheckYPosition()
     {
-        if (transform.position.y <= -3.75)
+        if (Mathf.Abs(transform.position.y) >= 5.5)
         {
-            for (int i = 0; i < validXpositions.Length; ++i)
-            {
-                if (transform.position.x == validXpositions[i])
-                {
-                    DestroyTile(i);
-                    break;
-                }
-                else if (transform.position.x == validXpositions[i] * -1)
-                {
-                    DestroyTile(i);
-                    break;
-                }
-            }
+            BeanType = 0;
+            Destroy(gameObject);
         }
     }
 

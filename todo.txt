@@ -1,5 +1,4 @@
 unity birdgame / pyoro clone to-do
-- tongue extension
 - seemingly random spawning of beans (bulk of game code, has two states)
 	- spawn beans near the player, trying to take the player out or narrow the player's walkable area
 	- spawn beans randomly at times
