@@ -11,9 +11,15 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb2D;
     SpriteRenderer spr;
 
+    public GameObject gameOverText;
+
     public float speed = 2;
 
     public bool isShooting = false;
+
+    public bool isDead = false;
+
+    bool playingDyingAnimation = false;
 
     public GameObject tonguePrefab;
 
@@ -29,25 +35,35 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        gameObject.layer = 9;
     }
 
     // Update is called once per frame
     void Update()
     {
-        CheckInputAndMove();
-
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (!isDead)
         {
-            GetComponent<SpriteRenderer>().sprite = birdSprites[2];
+            CheckInput();
         }
-        else if (Input.GetKeyUp(KeyCode.Space))
+        else
         {
-            GetComponent<SpriteRenderer>().sprite = birdSprites[0];
+            isShooting = false;
+            Destroy(tongue);
+            ani.enabled = false;
+            if (!playingDyingAnimation)
+            {
+                playingDyingAnimation = true;
+                StartCoroutine("PlayDeathAnimation");
+            }
+        }
+
+        if (transform.position.y <= -4.75)
+        {
+            gameOverText.SetActive(true);
         }
     }
 
-    void CheckInputAndMove()
+    void CheckInput()
     {
         if (isShooting == false)
         {
@@ -79,18 +95,19 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+
+            if (Input.GetKeyUp(KeyCode.Space))
+                tongue.GetComponent<Tongue>().retracting = true;
             GetComponent<SpriteRenderer>().sprite = birdSprites[2];
         }
     }
 
     void Shoot()
     {
-        // fire a beam/laser at a 45 degree angle from the center of the head
-        // raycasting???
-        // just have a skinny box that's at a 45 degree angle from the player's center that checks for collisions with beans when the player shoots???? WHAT SHOULD I DO HERE
-
         isShooting = true;
 
+        if (Input.GetKeyUp(KeyCode.Space))
+            tongue.GetComponent<Tongue>().retracting = true;
 
         if (transform.localScale.x < 0)
         {
@@ -102,10 +119,24 @@ public class PlayerController : MonoBehaviour
             tongue = Instantiate(tonguePrefab, transform.position + new Vector3(-.28125f, .125f), new Quaternion(0, 0, 0, 0));
             tongue.GetComponent<Tongue>().goLeft = true;
         }
+        tongue.layer = 11;
 
         if (Input.GetKeyUp(KeyCode.Space))
             tongue.GetComponent<Tongue>().retracting = true;
-        
-        
+
+
+    }
+
+    private IEnumerator PlayDeathAnimation()
+    {
+        gameObject.layer = 12;
+        spr.sprite = birdSprites[4];
+        transform.position = new Vector3(transform.position.x, transform.position.y, -.5f);
+        while (transform.position.y > -4.75)
+        {
+            transform.position -= new Vector3(0, .01f);
+            yield return new WaitForSeconds(1.0f / 60.0f);
+        }
+        yield return null;
     }
 }

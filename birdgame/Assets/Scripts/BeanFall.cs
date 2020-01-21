@@ -38,6 +38,7 @@ public class BeanFall : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameObject.layer = 8;
     }
 
     // Update is called once per frame
@@ -58,17 +59,28 @@ public class BeanFall : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        GameObject cGB = collision.gameObject;
         print("Bean: Collided with something.");
+
         // If we collide with the player, kill the player
-        if (collision.gameObject.name == "Player")
+        if (cGB.name == "Player")
         {
             print("Bean: Hit the player.");
+            cGB.GetComponent<PlayerController>().isDead = true;
+            Destroy(gameObject);
         }
-        if (collision.gameObject.name.Contains("block"))
+        else if (cGB.name.Contains("block"))
         {
             print("Bean: Hit a block.");
-            Destroy(collision.gameObject);
+            int hitBlockIndex = int.Parse(cGB.name.Replace("block", ""));
+            print($"Bean: Hit block number {hitBlockIndex}");
+            GameObject.Find("Game Manager").GetComponent<GameManager>().activeTiles[hitBlockIndex] = false;
+            cGB.GetComponent<SpriteRenderer>().enabled = false;
             Destroy(gameObject);
+        }
+        else if (cGB.name.Contains("Tongue") && cGB.GetComponent<Tongue>().retracting)
+        {
+            StartCoroutine("DisableCollisionTemp");
         }
     }
 
@@ -92,5 +104,14 @@ public class BeanFall : MonoBehaviour
     void DestroyTile(int tileIndex)
     {
 
+    }
+
+    // Only called when the bean touches the retracting tongue
+    private IEnumerator DisableCollisionTemp()
+    {
+        GetComponent<CircleCollider2D>().isTrigger = true;
+        yield return new WaitForSeconds(.25f);
+        GetComponent<CircleCollider2D>().isTrigger = false;
+        yield return null;
     }
 }

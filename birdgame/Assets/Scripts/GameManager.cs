@@ -1,19 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public float timeElapsed;
-
     public int score;
 
-    bool[] activeTiles = new bool[32];
+    public GameObject ScoreText;
+
+    public bool[] activeTiles = new bool[30];
 
     // Start is called before the first frame update
     void Start()
     {
-        timeElapsed = 0;
+        ScoreText = GameObject.Find("ScoreText (TMP)");
         for (int i = 0; i < activeTiles.Length; ++i)
         {
             activeTiles[i] = true;
@@ -23,6 +24,20 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timeElapsed += Time.deltaTime;
+        ScoreText.GetComponent<TextMeshProUGUI>().SetText($"Score: {score}");
+
+        int i = 0;
+        while (i < activeTiles.Length)
+        {
+            //print("checking block #" + i);
+            //print($"block #{i} should be {!activeTiles[i]}");
+            GameObject.Find("block" + i).GetComponent<BlockObject>().blockPlayer = !activeTiles[i];
+            ++i;
+        }
+    }
+
+    public void AddToScore(int s)
+    {
+        score += s;
     }
 }

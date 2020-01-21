@@ -13,11 +13,11 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - BEAN
+  - PLAYER
+  - BLOCK
+  - TONGUE
+  - NOCOLLIDE
   - 
   - 
   - 

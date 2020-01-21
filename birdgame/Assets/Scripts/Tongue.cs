@@ -19,6 +19,7 @@ public class Tongue : MonoBehaviour
     {
         rb2D = GetComponent<Rigidbody2D>();
         startPos = transform.position;
+        gameObject.layer = 11;
     }
 
     // Update is called once per frame
@@ -78,8 +79,36 @@ public class Tongue : MonoBehaviour
     {
         if (collision.gameObject.name.Contains("Bean") && !retracting)
         {
+            int scoreToAdd = 0;
+            if (gameObject.transform.position.y <= -2.09375)
+            {
+                print("should be adding 10");
+                scoreToAdd = 10;
+            }
+            else if (gameObject.transform.position.y <= -0.09375)
+            {
+                print("should be adding 50");
+                scoreToAdd = 50;
+            }
+            else if (gameObject.transform.position.y <= 2 - 0.09375)
+            {
+                print("should be adding 100");
+                scoreToAdd = 100;
+            }
+            else if (gameObject.transform.position.y <= 5 - 0.09375)
+            {
+                print("should be adding 500");
+                scoreToAdd = 500;
+            }
+
+            GameObject.Find("Game Manager").GetComponent<GameManager>().AddToScore(scoreToAdd);
             Destroy(collision.gameObject);
             retracting = true;
         }
+    }
+
+    private void OnDestroy()
+    {
+        GameObject.Find("Player").GetComponent<PlayerController>().isShooting = false;
     }
 }
