@@ -1,7 +1,4 @@
 unity birdgame / pyoro clone to-do
-- switching state of bean spawner
-- tile regeneration when eating white beans
 - cloud poof animation when bean hits a block
-- hud & ui with score
 - remove unused code and other assets
 - document/comment on code

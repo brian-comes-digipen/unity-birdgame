@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Linq;
 using UnityEngine;
-using System.Linq;
 
 public class BeanSpawner : MonoBehaviour
 {
@@ -9,22 +7,26 @@ public class BeanSpawner : MonoBehaviour
 
     public float beansPerSecond;
 
-    int frames;
+    private int frames;
 
     public int movementMode;
 
-    enum MovementModes { Randomly = 0, NearPlayerX = 1 };
+    public bool CanSpawnMagicBeans;
+
+    public enum MovementModes { Randomly = 0, NearPlayerX = 1 };
 
     public GameObject beanPrefab;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    private GameManager GM;
 
+    // Start is called before the first frame update
+    private void Start()
+    {
+        GM = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         frames++;
         if (movementMode == (int)MovementModes.Randomly)
@@ -43,29 +45,33 @@ public class BeanSpawner : MonoBehaviour
             transform.position = new Vector3(xNearestToPlayerX, transform.position.y, transform.position.z);
         }
 
-        if (frames % 3000 == 0)
+        if ((frames % 12000 / GM.GameSpeed < 1) && CanSpawnMagicBeans)
         {
             beanPrefab.GetComponent<BeanFall>().BeanType = 1;
             Instantiate(beanPrefab, transform.position, new Quaternion(0, 0, 0, 0));
             beanPrefab.GetComponent<BeanFall>().BeanType = 0;
         }
-        else if (frames % 300 == 0)
+        else if (frames % 3000 / GM.GameSpeed < 1)
+        {
+            beanPrefab.GetComponent<BeanFall>().BeanType = 1;
+            Instantiate(beanPrefab, transform.position, new Quaternion(0, 0, 0, 0));
+            beanPrefab.GetComponent<BeanFall>().BeanType = 0;
+        }
+        else if (frames % 300 / GM.GameSpeed < 1)
         {
             beanPrefab.GetComponent<BeanFall>().BeanType = 0;
             Instantiate(beanPrefab, transform.position, new Quaternion(0, 0, 0, 0));
             beanPrefab.GetComponent<BeanFall>().BeanType = 0;
         }
-
     }
 
-    float RandomFloatFromArray(float[] x)
+    private float RandomFloatFromArray(float[] x)
     {
         return x[Random.Range(0, x.Length)];
     }
 
-
     // Returns 1 or -1
-    int CoinFlipNegative()
+    private int CoinFlipNegative()
     {
         System.Random r = new System.Random();
         if (r.Next(0, 2) == 1)
@@ -78,7 +84,7 @@ public class BeanSpawner : MonoBehaviour
         }
     }
 
-    float RandomOffset(float f)
+    private float RandomOffset(float f)
     {
         System.Random r = new System.Random();
         int x = r.Next(0, 3);

@@ -1,15 +1,13 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
     public Sprite[] birdSprites;
 
-    Animator ani;
-    Rigidbody2D rb2D;
-    SpriteRenderer spr;
+    private Animator ani;
+    private Rigidbody2D rb2D;
+    private SpriteRenderer spr;
 
     public GameObject gameOverText;
 
@@ -19,11 +17,13 @@ public class PlayerController : MonoBehaviour
 
     public bool isDead = false;
 
-    bool playingDyingAnimation = false;
+    private bool playingDyingAnimation = false;
 
     public GameObject tonguePrefab;
 
-    GameObject tongue = null;
+    private GameObject tongue = null;
+
+    private GameManager GM;
 
     private void Awake()
     {
@@ -33,13 +33,14 @@ public class PlayerController : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
+        GM = GameObject.Find("Game Manager").GetComponent<GameManager>();
         gameObject.layer = 9;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (!isDead)
         {
@@ -63,51 +64,51 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void CheckInput()
+    private void CheckInput()
     {
         if (isShooting == false)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                rb2D.velocity = new Vector2(0, 0);
+                GetComponent<Animator>().enabled = false;
                 GetComponent<SpriteRenderer>().sprite = birdSprites[2];
                 isShooting = true;
-                GetComponent<Animator>().enabled = false;
                 Shoot();
             }
             else if (Input.GetKeyUp(KeyCode.Space))
             {
                 GetComponent<SpriteRenderer>().sprite = birdSprites[0];
             }
-            else if (Input.GetKey(KeyCode.RightArrow))
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                transform.position = new Vector2(transform.position.x + speed * Time.deltaTime, transform.position.y);
+                rb2D.velocity = new Vector2(1 * speed * GM.GameSpeed, 0);
                 transform.localScale = new Vector3(-1, 1, 1);
                 GetComponent<Animator>().enabled = true;
             }
-            else if (Input.GetKey(KeyCode.LeftArrow))
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                transform.position = new Vector2(transform.position.x - speed * Time.deltaTime, transform.position.y);
+                rb2D.velocity = new Vector2(-1 * speed * GM.GameSpeed, 0);
                 transform.localScale = new Vector3(1, 1, 1);
                 GetComponent<Animator>().enabled = true;
             }
-            else
+            else if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.LeftArrow))
+            {
+                rb2D.velocity = new Vector2(0, 0);
                 GetComponent<Animator>().enabled = false;
+            }
         }
         else
         {
-
             if (Input.GetKeyUp(KeyCode.Space))
                 tongue.GetComponent<Tongue>().retracting = true;
             GetComponent<SpriteRenderer>().sprite = birdSprites[2];
         }
     }
 
-    void Shoot()
+    private void Shoot()
     {
         isShooting = true;
-
-        if (Input.GetKeyUp(KeyCode.Space))
-            tongue.GetComponent<Tongue>().retracting = true;
 
         if (transform.localScale.x < 0)
         {
@@ -123,8 +124,6 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.Space))
             tongue.GetComponent<Tongue>().retracting = true;
-
-
     }
 
     private IEnumerator PlayDeathAnimation()

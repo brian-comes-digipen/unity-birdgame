@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CloudPoof : MonoBehaviour
 {
-    Animator ani;
-    Rigidbody2D rb2D;
-    SpriteRenderer spr;
+    private Animator ani;
+    private Rigidbody2D rb2D;
+    private SpriteRenderer spr;
 
     private void Awake()
     {
@@ -18,8 +16,9 @@ public class CloudPoof : MonoBehaviour
         ani.enabled = true;
         ani.Play("CloudPoof");
     }
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         ani.StartPlayback();
         ani.enabled = true;
@@ -27,8 +26,7 @@ public class CloudPoof : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-
     }
 }

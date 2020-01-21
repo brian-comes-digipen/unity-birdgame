@@ -546,6 +546,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   ScoreText: {fileID: 38458273}
+  GameSpeed: 1
   activeTiles: 000000000000000000000000000000000000000000000000000000000000
 --- !u!4 &89930661
 Transform:
@@ -4263,6 +4264,11 @@ PrefabInstance:
         type: 3}
       propertyPath: movementMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2859808269580909947, guid: 14379c7349f8dac429e651af51036828,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14379c7349f8dac429e651af51036828, type: 3}
