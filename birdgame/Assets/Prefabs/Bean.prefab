@@ -120,6 +120,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BeanType: 0
+  cloudPoofPrefab: {fileID: 832512485899386809, guid: e0bd35d0f89448e4d886d7841dc4598a,
+    type: 3}
 --- !u!95 &475536857354420207
 Animator:
   serializedVersion: 3

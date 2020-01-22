@@ -1,32 +1,37 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class CloudPoof : MonoBehaviour
 {
-    private Animator ani;
-    private Rigidbody2D rb2D;
+    public Sprite[] cloudSprites;
+    private bool animationStarted = false;
     private SpriteRenderer spr;
 
-    private void Awake()
+    private IEnumerator CloudPoofAnimation()
     {
-        ani = GetComponent<Animator>();
-        rb2D = GetComponent<Rigidbody2D>();
-        spr = GetComponent<SpriteRenderer>();
-
-        ani.StartPlayback();
-        ani.enabled = true;
-        ani.Play("CloudPoof");
+        spr.sprite = cloudSprites[0];
+        yield return new WaitForSecondsRealtime(.1f);
+        spr.sprite = cloudSprites[1];
+        yield return new WaitForSecondsRealtime(.1f);
+        spr.sprite = cloudSprites[2];
+        yield return new WaitForSecondsRealtime(.1f);
+        Destroy(gameObject);
+        yield return null;
     }
 
     // Start is called before the first frame update
     private void Start()
     {
-        ani.StartPlayback();
-        ani.enabled = true;
-        ani.Play("CloudPoof");
+        spr = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     private void Update()
     {
+        if (!animationStarted)
+        {
+            StartCoroutine(CloudPoofAnimation());
+            animationStarted = true;
+        }
     }
 }

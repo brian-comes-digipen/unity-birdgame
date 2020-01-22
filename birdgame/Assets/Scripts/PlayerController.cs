@@ -5,63 +5,23 @@ public class PlayerController : MonoBehaviour
 {
     public Sprite[] birdSprites;
 
+    public GameObject gameOverText;
+    public bool isDead = false;
+    public bool isShooting = false;
+    public float speed = 2;
+    public GameObject tonguePrefab;
     private Animator ani;
+    private GameManager GM;
+    private bool playingDyingAnimation = false;
     private Rigidbody2D rb2D;
     private SpriteRenderer spr;
-
-    public GameObject gameOverText;
-
-    public float speed = 2;
-
-    public bool isShooting = false;
-
-    public bool isDead = false;
-
-    private bool playingDyingAnimation = false;
-
-    public GameObject tonguePrefab;
-
     private GameObject tongue = null;
-
-    private GameManager GM;
 
     private void Awake()
     {
         ani = GetComponent<Animator>();
         rb2D = GetComponent<Rigidbody2D>();
         spr = GetComponent<SpriteRenderer>();
-    }
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-        GM = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        gameObject.layer = 9;
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        if (!isDead)
-        {
-            CheckInput();
-        }
-        else
-        {
-            isShooting = false;
-            Destroy(tongue);
-            ani.enabled = false;
-            if (!playingDyingAnimation)
-            {
-                playingDyingAnimation = true;
-                StartCoroutine("PlayDeathAnimation");
-            }
-        }
-
-        if (transform.position.y <= -4.75)
-        {
-            gameOverText.SetActive(true);
-        }
     }
 
     private void CheckInput()
@@ -106,6 +66,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private IEnumerator PlayDeathAnimation()
+    {
+        gameObject.layer = 12;
+        spr.sprite = birdSprites[4];
+        transform.position = new Vector3(transform.position.x, transform.position.y, -.5f);
+        while (transform.position.y > -4.75)
+        {
+            transform.position -= new Vector3(0, .01f);
+            yield return new WaitForSecondsRealtime(1.0f / 60.0f);
+        }
+        yield return null;
+    }
+
     private void Shoot()
     {
         isShooting = true;
@@ -126,16 +99,35 @@ public class PlayerController : MonoBehaviour
             tongue.GetComponent<Tongue>().retracting = true;
     }
 
-    private IEnumerator PlayDeathAnimation()
+    // Start is called before the first frame update
+    private void Start()
     {
-        gameObject.layer = 12;
-        spr.sprite = birdSprites[4];
-        transform.position = new Vector3(transform.position.x, transform.position.y, -.5f);
-        while (transform.position.y > -4.75)
+        GM = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        gameObject.layer = 9;
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        if (!isDead)
         {
-            transform.position -= new Vector3(0, .01f);
-            yield return new WaitForSeconds(1.0f / 60.0f);
+            CheckInput();
         }
-        yield return null;
+        else
+        {
+            isShooting = false;
+            Destroy(tongue);
+            ani.enabled = false;
+            if (!playingDyingAnimation)
+            {
+                playingDyingAnimation = true;
+                StartCoroutine("PlayDeathAnimation");
+            }
+        }
+
+        if (transform.position.y <= -4.75)
+        {
+            gameOverText.SetActive(true);
+        }
     }
 }

@@ -1,4 +1,2 @@
 unity birdgame / pyoro clone to-do
-- cloud poof animation when bean hits a block
-- remove unused code and other assets
 - document/comment on code
