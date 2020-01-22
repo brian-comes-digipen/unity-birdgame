@@ -11,7 +11,6 @@ public class BeanSpawner : MonoBehaviour
 
     public bool CanSpawnMagicBeans;
     public int movementMode;
-    private int frames;
     private GameManager GM;
 
     private bool CanSpawnBeansAtAll = false;
@@ -65,7 +64,6 @@ public class BeanSpawner : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        frames++;
         if (CanSpawnBeansAtAll)
         {
             if (movementMode == (int)MovementModes.Randomly)

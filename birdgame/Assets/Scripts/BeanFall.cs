@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class BeanFall : MonoBehaviour
 {
-    public readonly float[] validXpositions = { 7.75f, 7.25f, 6.75f, 6.25f, 5.75f, 5.25f, 4.75f, 4.25f, 3.75f, 3.25f, 2.75f, 2.25f, 1.75f, 1.25f, 0.75f, 0.25f };
-
     public int BeanType = 0;
 
     public GameObject cloudPoofPrefab;
